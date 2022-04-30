@@ -90,6 +90,7 @@ AVLNode* createNode(int data) {
     node->data = data;
     node->height = 0;
     node->left = NULL, node->right = NULL;
+    return node;
 }
 
 AVLNode* searchNode(int data, AVLNode* tree) {
