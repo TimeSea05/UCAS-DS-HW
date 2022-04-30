@@ -98,7 +98,7 @@ AVLNode* searchNode(int data, AVLNode* tree) {
 
     if (data < tree->data) return searchNode(data, tree->left);
     else if (data > tree->data) return searchNode(data, tree->right);
-    return tree;
+    else return tree;
 }
 
 void insertNode(int data, AVLNode** treePointer) {
