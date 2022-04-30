@@ -35,35 +35,20 @@ int main() {
     int tempData;
     char command;
 
+    printf("Which operation do you want to perform on the AVL Tree?\n");
     printHints();
     while (1) {
         while ((command = getchar()) == '\n');
 
         switch(command) {
-            case 'S':
-                printf("Please enter the data that you want to search:\n");
-                scanf("%d", &tempData);
-                AVLNode* result = searchNode(tempData, tree);
-                if (result == NULL) printf("The data you entered is not in the AVL Tree.\n");
-                else {
-                    printf("Search data: %d\n", tempData);
-                    printf("The address of the node: %p\n", result);
-                    printf("The height of the node: %d\n", result->height);
-                    printf("To know exactly where the node is, you can use command 'P' to print the tree.\n");
-                }
+            case 'H':
+                printHints();
                 break;
             case 'I':
-                printf("Please enter the data that you want to insert to the AVL Tree:\n");
+                printf("Please enter the data that you want to insert to the AVL Tree: ");
                 scanf("%d", &tempData);
                 insertNode(tempData, &tree);
-                printf("After Insertion: \n");
-                printAVLTree(tree);
-                break;
-            case 'R':
-                printf("Please enter the data that you want to remove from the AVL Tree:\n");
-                scanf("%d", &tempData);
-                removeNode(tempData, &tree);
-                printf("After removal:\n");
+                printf("\nAfter Insertion: \n");
                 printAVLTree(tree);
                 break;
             case 'P':
@@ -71,10 +56,31 @@ int main() {
                 break;
             case 'Q':
                 return 0;
+            case 'R':
+                printf("Please enter the data that you want to remove from the AVL Tree: ");
+                scanf("%d", &tempData);
+                removeNode(tempData, &tree);
+                printf("\nAfter removal:\n");
+                printAVLTree(tree);
+                break;
+            case 'S':
+                printf("Please enter the data that you want to search: ");
+                scanf("%d", &tempData);
+                AVLNode* result = searchNode(tempData, tree);
+                printf("\n---------------------------------------------------------------\n");
+                if (result == NULL) printf("The data you entered is not in the AVL Tree.\n");
+                else {
+                    printf("Search data: %d\n", tempData);
+                    printf("The address of the node: %p\n", result);
+                    printf("The height of the node: %d\n", result->height);
+                    printf("To know exactly where the node is, you can use command 'P' to print the tree.");
+                }
+                printf("\n---------------------------------------------------------------\n");
+                break;
             default:
                 printf("Unknown command. Please try again.\n");
         }
-        printHints();
+        printf("Which operation do you want to perform on the AVL Tree('H' for hints): ");
     }
     return 0;
 }
@@ -205,21 +211,20 @@ void printAVLTreeRecur(AVLNode* tree, int layer) {
 }
 
 void printAVLTree(AVLNode* tree) {
-    printf("\n");
     printf("The current AVL tree is:\n");
-    for (int i = 0; i < 20; i++) printf("-");
-    printf("\n");
+    printf("---------------------------------------------------------------\n");
     printAVLTreeRecur(tree, 0);
-    for (int i = 0; i < 20; i++) printf("-");
-    printf("\n\n");
+    printf("---------------------------------------------------------------\n\n");
 }
 
 void printHints() {
-    printf("Which operation do you want to perform on the AVL Tree?\n");
-    printf("'S' to search whether the data is already in this AVL Tree.\n");
+    printf("---------------------------------------------------------------\n");
+    printf("Hints:\n");
     printf("'I' to insert a node with data you entered.\n");
-    printf("'R' to remove a node with data you entered.\n");
     printf("'P' to print the current AVL Tree.\n");
     printf("'Q' to quit the program.\n");
+    printf("'R' to remove a node with data you entered.\n");
+    printf("'S' to search whether the data is already in this AVL Tree.\n");
     printf("IMPORTANT: You can only enter ONE character at one time!!!\n");
+    printf("---------------------------------------------------------------\n");
 }
