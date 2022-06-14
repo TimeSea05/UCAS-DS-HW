@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 
 #define ALLOWED_IMBALANCE 1
+#define MAX_NODE_NUM 100
 
 typedef struct AVLNode {
     int data;
@@ -11,7 +13,7 @@ typedef struct AVLNode {
 } AVLNode;
 
 AVLNode* createNode(int data);
-AVLNode* searchNode(int data, AVLNode* tree);
+AVLNode* findNode(int data, AVLNode* tree);
 void insertNode(int data, AVLNode** treePointer);
 void removeNode(int data, AVLNode** treePointer);
 
@@ -26,9 +28,12 @@ void rotateWithRightChild(AVLNode** k1Poinnter);
 void doubleWithLeftChild(AVLNode** k3Pointer);
 void doubleWithRightChild(AVLNode** k3Pointer);
 
+void splitAVLTree(AVLNode* tree, int flag);
+
 void printAVLTreeRecur(AVLNode* tree, int layer);
 void printAVLTree(AVLNode* tree);
 void printHints();
+void printAVLTreeArr(AVLNode* tree);
 
 int main() {
     AVLNode* tree = NULL;
@@ -41,6 +46,20 @@ int main() {
         while ((command = getchar()) == '\n');
 
         switch(command) {
+            case 'F':
+                printf("Please enter the data that you want to find: ");
+                scanf("%d", &tempData);
+                AVLNode* result = findNode(tempData, tree);
+                printf("\n---------------------------------------------------------------\n");
+                if (result == NULL) printf("The data you entered is not in the AVL Tree.\n");
+                else {
+                    printf("Find data: %d\n", tempData);
+                    printf("The address of the node: %p\n", result);
+                    printf("The height of the node: %d\n", result->height);
+                    printf("To know exactly where the node is, you can use command 'P' to print the tree.");
+                }
+                printf("\n---------------------------------------------------------------\n");
+                break;
             case 'H':
                 printHints();
                 break;
@@ -64,18 +83,9 @@ int main() {
                 printAVLTree(tree);
                 break;
             case 'S':
-                printf("Please enter the data that you want to search: ");
+                printf("Please enter the flag data: ");
                 scanf("%d", &tempData);
-                AVLNode* result = searchNode(tempData, tree);
-                printf("\n---------------------------------------------------------------\n");
-                if (result == NULL) printf("The data you entered is not in the AVL Tree.\n");
-                else {
-                    printf("Search data: %d\n", tempData);
-                    printf("The address of the node: %p\n", result);
-                    printf("The height of the node: %d\n", result->height);
-                    printf("To know exactly where the node is, you can use command 'P' to print the tree.");
-                }
-                printf("\n---------------------------------------------------------------\n");
+                splitAVLTree(tree, tempData);
                 break;
             default:
                 printf("Unknown command. Please try again.\n");
@@ -93,11 +103,11 @@ AVLNode* createNode(int data) {
     return node;
 }
 
-AVLNode* searchNode(int data, AVLNode* tree) {
+AVLNode* findNode(int data, AVLNode* tree) {
     if (tree == NULL) return NULL;
 
-    if (data < tree->data) return searchNode(data, tree->left);
-    else if (data > tree->data) return searchNode(data, tree->right);
+    if (data < tree->data) return findNode(data, tree->left);
+    else if (data > tree->data) return findNode(data, tree->right);
     else return tree;
 }
 
@@ -201,31 +211,102 @@ void doubleWithRightChild(AVLNode** k1Pointer) {
     rotateWithRightChild(k1Pointer);
 }
 
-void printAVLTreeRecur(AVLNode* tree, int layer) {
-    if (tree == NULL) return;
+void splitAVLTree(AVLNode* tree, int flag) {
+    AVLNode* smallTree = NULL;
+    AVLNode* largeTree = NULL;
 
-    for (int i = 0; i < layer; i++) printf("-");
-    printf("%d\n", tree->data);
+    int stackPointer = -1;
+    AVLNode** stack = (AVLNode**)malloc(MAX_NODE_NUM * sizeof(AVLNode*));
+    AVLNode* p = tree;
 
-    printAVLTreeRecur(tree->left, layer + 1);
-    printAVLTreeRecur(tree->right, layer + 1);
+    while (stackPointer != -1 || p != NULL) {
+        while (p != NULL) {
+            stack[++stackPointer] = p;
+            p = p->left;
+        }
+
+        if (stackPointer != -1) {
+            p = stack[stackPointer--];
+            if (p->data < flag) insertNode(p->data, &smallTree);
+            else if (p->data > flag) insertNode(p->data, &largeTree);
+
+            p = p->right;
+        }
+    }
+
+    printf("The current two AVL trees are:\n");
+    printf("---------------------------------------------------------------\n");
+    printAVLTreeArr(smallTree);
+    printf("\n");
+    printAVLTreeArr(largeTree);
+    printf("---------------------------------------------------------------\n\n");
+}
+
+void printToArr(AVLNode* tree, int layer, int left, int right, char** arr) {
+    if (tree == NULL || left > right) return;
+
+    int data = tree->data, begin = (left + right) / 2, len = 0;
+    while (data) { data /= 10; len++; }
+    data = tree->data;
+
+    // write digits
+    for (int i = len - 1; i >= 0; i--) {
+        arr[2 * layer][begin + i] = data % 10 + '0';
+        data /= 10;
+    }
+
+    // write slashes
+    if (tree->left != NULL) {
+        int slashLeftPos = (3 * begin / 2 + left / 2 - 1) / 2;
+        arr[2 * layer + 1][slashLeftPos] = '/';
+    }
+    if (tree->right != NULL) {
+        int slashRightPos = (3 * begin / 2 + right / 2 + 1) / 2;
+        arr[2 * layer + 1][slashRightPos] = '\\';
+    }
+
+    printToArr(tree->left, layer + 1, left, begin - 2, arr);
+    printToArr(tree->right, layer + 1, begin + 2, right, arr);
+}
+
+void printAVLTreeArr(AVLNode* tree) {
+    int treeHeight = getHeight(tree);
+    int height = 2 * treeHeight + 1;
+    int width = pow(2, treeHeight + 2) - 3;
+
+    char** arr = (char**)malloc(sizeof(char*) * height);
+    for (int i = 0; i < height; i++) {
+        arr[i] = (char*)malloc(sizeof(char) * (width + 3));
+        arr[i][width + 2] = '\0';
+    }
+
+    for (int i = 0; i < height; i++) {
+        for (int j = 0; j < width + 2; j++) {
+            arr[i][j] = ' ';
+        }
+    }
+
+    printToArr(tree, 0, 0, width - 1, arr);
+    for (int i = 0; i < height; i++) printf("%s\n", arr[i]);
+    free(arr);
 }
 
 void printAVLTree(AVLNode* tree) {
     printf("The current AVL tree is:\n");
     printf("---------------------------------------------------------------\n");
-    printAVLTreeRecur(tree, 0);
+    printAVLTreeArr(tree);
     printf("---------------------------------------------------------------\n\n");
 }
 
 void printHints() {
     printf("---------------------------------------------------------------\n");
     printf("Hints:\n");
+    printf("'F' to find whether the data is already in this AVL Tree.\n");
     printf("'I' to insert a node with data you entered.\n");
     printf("'P' to print the current AVL Tree.\n");
     printf("'Q' to quit the program.\n");
     printf("'R' to remove a node with data you entered.\n");
-    printf("'S' to search whether the data is already in this AVL Tree.\n");
+    printf("'S' to split this AVL Tree.\n");
     printf("IMPORTANT: You can only enter ONE character at one time!!!\n");
     printf("---------------------------------------------------------------\n");
 }
