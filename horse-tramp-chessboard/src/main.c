@@ -1,4 +1,5 @@
 /*本算法采取贪心算法对马踏棋盘算法进行优化，以减少回溯次数*/
+#define ISMAIN
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>

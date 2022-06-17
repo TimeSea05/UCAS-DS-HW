@@ -14,11 +14,16 @@ typedef struct Sqstack {
     int stacksize;
 } Sqstack;
 
+
+#ifndef ISMAIN
+#define ISMAIN
 extern int ChessBoard[BOARDSIZE][BOARDSIZE];  //用8*8的全局数组表示棋盘
 extern chess HTry[8];                         //有可能会走的八个方向
 
 extern int Weight[BOARDSIZE][BOARDSIZE];       //对棋盘上的每一个点都赋贪心算法的权值
 extern int SqWeight[BOARDSIZE][BOARDSIZE][8];  //给棋盘上每个点可能走的方向按权值排序
+#endif
+
 
 int isOnboard(int x, int y);  //判断是否在棋盘上
 void weight();                //赋权值函数
