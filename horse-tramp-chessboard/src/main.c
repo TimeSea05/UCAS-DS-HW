@@ -29,8 +29,24 @@ int main() {
     weight();
     weight_sort();
 
+    printf("\n***********************************************************************\n");
+    printf("*                                                                     *\n");
+    printf("*                                                                     *\n");
+    printf("*  [NOTE] PLEASE CHECK TERMINAL ENCODING IF ANY DISPLAY ERROR OCCURS  *\n");
+    printf("*                  THE RECOMMENDED ENCODING IS UTF-8                  *\n");
+    printf("*                                                                     *\n");
+    printf("*                                                                     *\n");
+    printf("*---------------------------------------------------------------------*\n");
+    printf("*                                                                     *\n");
+    printf("*                                                                     *\n");
+    printf("*         中国科学院大学《数据结构》课程大作业之《马踏棋盘》          *\n");
+    printf("*                  小组成员：安文韬、史文轩、张梓堃                   *\n");
+    printf("*                                                                     *\n");
+    printf("*                                                                     *\n");
+    printf("***********************************************************************\n\n\n");
+
     while (1) {
-        printf("输入起始点坐标：\n");
+        printf("输入起始点坐标，用空格分开：\n");
         scanf("%d %d", &x, &y);
         if (x >= 0 && x <= 7 && y >= 0 && y <= 7) {
             //初始化棋盘
