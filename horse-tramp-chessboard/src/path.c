@@ -61,5 +61,6 @@ void getPath(int x, int y) {
             }
         }
     }
-    free(s);
+    free(s->base);
+    free(s);//Free up mem space used by Stack
 }
