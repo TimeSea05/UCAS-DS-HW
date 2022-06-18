@@ -8,7 +8,11 @@ void getPath(int x, int y) {
     Sqstack* s = (Sqstack*)malloc(sizeof(Sqstack));
     initStack(s);
 
-    chess loc, next_loc, pop_loc, top_loc, temp;  //依次表示棋盘上的当前位置，下个位置，回溯过程中的上个位置，当前栈的top储存位置，中间储存位置
+    chess loc,     //当前位置
+        next_loc,  //下个位置
+        pop_loc,   //回溯过程中的上个位置
+        top_loc,   //当前栈的top储存位置
+        temp;      //中间储存位置
 
     int step = 0;  //统计步数
     int x1, y1, d, m;
@@ -62,5 +66,5 @@ void getPath(int x, int y) {
         }
     }
     free(s->base);
-    free(s);//Free up mem space used by Stack
+    free(s);  // Free up mem space used by Stack
 }

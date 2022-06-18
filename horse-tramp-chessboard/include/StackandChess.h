@@ -15,7 +15,7 @@ typedef struct Sqstack {
 } Sqstack;
 
 
-#ifndef ISMAIN
+#ifndef ISMAIN  // Declare external variables
 #define ISMAIN
 extern int ChessBoard[BOARDSIZE][BOARDSIZE];  //用8*8的全局数组表示棋盘
 extern chess HTry[8];                         //有可能会走的八个方向
