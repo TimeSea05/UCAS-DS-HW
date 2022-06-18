@@ -7,12 +7,11 @@
 #include "StackandChess.h"
 
 int ChessBoard[BOARDSIZE][BOARDSIZE];  //用8*8的全局数组表示棋盘
-chess HTry[8];                         //有可能会走的八个方向
 
 int Weight[BOARDSIZE][BOARDSIZE];       //对棋盘上的每一个点都赋贪心算法的权值
-int SqWeight[BOARDSIZE][BOARDSIZE][8];  //给棋盘上每个点可能走的方向按权值排序
+int SqWeight[BOARDSIZE][BOARDSIZE][BOARDSIZE];  //给棋盘上每个点可能走的方向按权值排序
 
-// HTry数组以此存储了八个方向，其中每个方向中第三个元素‘0’只用于凑出chess结构且不增加getPath函数中的方向数
+// HTry数组以此存储有可能会走的八个方向，其中每个方向中第三个元素‘0’只用于凑出chess结构且不增加getPath函数中的方向数
 chess HTry[8] = {
     {-2, 1, 0},
     {-1, 2, 0},
