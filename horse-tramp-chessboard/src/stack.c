@@ -13,6 +13,13 @@ int initStack(Sqstack* S) {
     return 1;
 }
 
+void destroyStack(Sqstack** sptr) {
+    // Free up mem space used by Stack
+    free((*sptr)->base);
+    free(*sptr);
+    *sptr = NULL;
+}
+
 int push(Sqstack* S, chess e) {
     *(S->top)++ = e;
     return 1;

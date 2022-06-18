@@ -34,6 +34,7 @@ void printBoard(Sqstack* s);  //打印出带数据的棋盘
 
 //栈的操作
 int initStack(Sqstack* S);
+void destroyStack(Sqstack** sptr);
 int push(Sqstack* S, chess e);
 int pop(Sqstack* S, chess* e);
 int changeTop(Sqstack* S, chess e);
