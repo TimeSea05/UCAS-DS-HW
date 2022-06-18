@@ -61,4 +61,5 @@ void getPath(int x, int y) {
             }
         }
     }
+    free(s);
 }
