@@ -1,8 +1,8 @@
 
 // ************* 模式选择，必须注释掉恰好一行 ************* //
-// 如果只注释一行，那么自动进入命令行演示
-//#define DEMONSTRATE_  //命令行演示
-#define GETDATA_      //获取所有回溯&时间信息，写入evaluation.txt
+// 如果注释两行，那么自动进入命令行演示
+#define DEMONSTRATE_  //命令行演示
+//#define GETDATA_      //获取所有回溯&时间信息，写入evaluation.txt
 
 // ************* 基本参数 ************* //
 #define BOARDSIZE 8
