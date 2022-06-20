@@ -1,104 +1,39 @@
+#include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <string.h>
 #include "StackandChess.h"
 
-void printBoard(Sqstack *s)  //´òÓ¡º¯Êı
+void printBoard(Sqstack* s)  //æ‰“å°å‡½æ•°
 {
     int c[BOARDSIZE][BOARDSIZE] = {0};
-    int k = BOARDSIZE*BOARDSIZE;
+    int k = BOARDSIZE * BOARDSIZE;
     int i = 0;
     chess e;
-    while(!stackEmpty(*s)){
-        pop(s,&e);
+    while (!stackEmpty(*s)) {
+        pop(s, &e);
         c[e.x][e.y] = k;
         k--;
-    }//ÏÈ°ÑÕ»ÖĞ´¢´æµÄ°´Ë³ĞòµÄ64²½¸³¸øÒ»¸ö8*8Êı×é£¬ÒÔ±ã´òÓ¡ÆåÅÌ
+    }  
+    //å…ˆæŠŠæ ˆä¸­å‚¨å­˜çš„æŒ‰é¡ºåºçš„64æ­¥èµ‹ç»™ä¸€ä¸ª8*8æ•°ç»„ï¼Œä»¥ä¾¿æ‰“å°æ£‹ç›˜
+    //è¿™ä¸ªæ ˆé€šè¿‡è¿™ä¸ªå¾ªç¯è¢«æ¸…ç©ºã€‚æ¸…ç©ºä¹‹åç»“æŸgetPath()ä¸­çš„å¾ªç¯ã€‚
 
-
-    //Ò»ÏÂ°´ĞĞË³ĞòÒÀ´Î´òÓ¡³öÆåÅÌ£¬½áºÏÉÏÊöÊı×é´òÓ¡³öÏàÓ¦Î»ÖÃÖĞµÄ²½Êı
-    printf("ÆåÅÌ±íÊ¾: 0   1   2   3   4   5   6   7\n");
-    printf("        ©°©¤©Ğ©¤©Ğ©¤©Ğ©¤©Ğ©¤©Ğ©¤©Ğ©¤©Ğ©¤©´\n");
-    printf("       0");
-    for ( i = 0; i < BOARDSIZE; i++){
-        if(c[0][i]<10)
-            printf("©¦ %d",c[0][i]);
-        else 
-            printf("©¦%d",c[0][i]);
+    const char s1[100] = "          â”Œâ”€â”€â”¬â”€â”€â”¬â”€â”€â”¬â”€â”€â”¬â”€â”€â”¬â”€â”€â”¬â”€â”€â”¬â”€â”€â”\n";
+    const char s2[100] = "          â”œâ”€â”€â”¼â”€â”€â”¼â”€â”€â”¼â”€â”€â”¼â”€â”€â”¼â”€â”€â”¼â”€â”€â”¼â”€â”€â”¤\n";
+    char* sPrint = s1;
+    //æŒ‰è¡Œåºä¾æ¬¡æ‰“å°å‡ºæ£‹ç›˜ï¼Œç»“åˆä¸Šè¿°æ•°ç»„æ‰“å°å‡ºç›¸åº”ä½ç½®ä¸­çš„æ­¥æ•°
+    printf("æ£‹ç›˜è¡¨ç¤º:  0  1  2  3  4  5  6  7\n");
+    for (int j = 0; j < BOARDSIZE; j++) {
+        printf("%s", sPrint);
+        sPrint = s2;
+        printf("         %d", j);
+        for (i = 0; i < BOARDSIZE; i++) {
+            printf("â”‚");
+            if (c[j][i] < 10)
+                printf(" ");
+            printf("%d", c[j][i]);
+        }
+        printf("â”‚\n");
     }
-    printf("©¦\n");
-
-    printf("        ©À©¤©à©¤©à©¤©à©¤©à©¤©à©¤©à©¤©à©¤©È\n");
-    printf("       1");
-    for ( i = 0; i < BOARDSIZE; i++){
-        if(c[1][i]<10)
-            printf("©¦ %d",c[1][i]);
-        else 
-            printf("©¦%d",c[1][i]);
-    }
-    printf("©¦\n");
-
-    printf("        ©À©¤©à©¤©à©¤©à©¤©à©¤©à©¤©à©¤©à©¤©È\n");
-    printf("       2");
-    for ( i = 0; i < BOARDSIZE; i++){
-        if(c[2][i]<10)
-            printf("©¦ %d",c[2][i]);
-        else 
-            printf("©¦%d",c[2][i]);
-    }
-    printf("©¦\n");
-
-    printf("        ©À©¤©à©¤©à©¤©à©¤©à©¤©à©¤©à©¤©à©¤©È\n");
-    printf("       3");
-    for ( i = 0; i < BOARDSIZE; i++){
-        if(c[3][i]<10)
-            printf("©¦ %d",c[3][i]);
-        else 
-            printf("©¦%d",c[3][i]);
-    }
-    printf("©¦\n");
-
-    printf("        ©À©¤©à©¤©à©¤©à©¤©à©¤©à©¤©à©¤©à©¤©È\n");
-    printf("       4");
-    for ( i = 0; i < BOARDSIZE; i++){
-        if(c[4][i]<10)
-            printf("©¦ %d",c[4][i]);
-        else 
-            printf("©¦%d",c[4][i]);
-    }
-    printf("©¦\n");
-
-    printf("        ©À©¤©à©¤©à©¤©à©¤©à©¤©à©¤©à©¤©à©¤©È\n");
-    printf("       5");
-    for ( i = 0; i < BOARDSIZE; i++){
-        if(c[5][i]<10)
-            printf("©¦ %d",c[5][i]);
-        else 
-            printf("©¦%d",c[5][i]);
-    }
-    printf("©¦\n");
-
-    printf("        ©À©¤©à©¤©à©¤©à©¤©à©¤©à©¤©à©¤©à©¤©È\n");
-    printf("       6");
-    for ( i = 0; i < BOARDSIZE; i++){
-        if(c[6][i]<10)
-            printf("©¦ %d",c[6][i]);
-        else 
-            printf("©¦%d",c[6][i]);
-    }
-    printf("©¦\n");
-
-    printf("        ©À©¤©à©¤©à©¤©à©¤©à©¤©à©¤©à©¤©à©¤©È\n");
-    printf("       7");
-    for ( i = 0; i < BOARDSIZE; i++){
-        if(c[7][i]<10)
-            printf("©¦ %d",c[7][i]);
-        else 
-            printf("©¦%d",c[7][i]);
-    }
-    printf("©¦\n");
-
-    printf("        ©¸©¤©Ø©¤©Ø©¤©Ø©¤©Ø©¤©Ø©¤©Ø©¤©Ø©¤©¼\n");
-
+    printf("          â””â”€â”€â”´â”€â”€â”´â”€â”€â”´â”€â”€â”´â”€â”€â”´â”€â”€â”´â”€â”€â”´â”€â”€â”˜\n\n");
 }
