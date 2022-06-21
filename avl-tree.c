@@ -134,6 +134,8 @@ void removeNode(int data, AVLNode** treePointer) {
         (*treePointer) = (tree->left != NULL) ? tree->left : tree->right;
         free(oldNode);
     }
+
+    balanceTree(treePointer);
 }
 
 int max(int a, int b) {
