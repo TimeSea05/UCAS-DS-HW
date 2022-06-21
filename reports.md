@@ -4,6 +4,10 @@
 
 ##### 本实验中，小组成员通过 git 及 GitHub 平台进行协作。
 
+仓库地址：https://github.com/TimeSea05/UCAS-DS-HW
+
+<img src="img/contributors.png" alt="contributors" style="zoom:67%;" />
+
 ##### 本实验中使用的环境：
 
 操作系统：Windows Subsystem for Linux (WSL) 2; Ubuntu 20.04.4 LTS
@@ -402,7 +406,7 @@ void removeNode(int data, AVLNode** treePointer) {
 
 为了实时检测树是否保持平衡，在每个节点中引入`height`成员，并根据左右子树的`height`的差值来决定实现何种旋转操作，并在旋转后及时对树节点的`height`成员进行更新。
 
-下面是各个旋转操作的图示(图片来源：《数据结构与算法分析 C++语言描述》第四版，作者Mark Alan Weiss)与源代码：
+下面是各个旋转操作的图示**(图片来源：《数据结构与算法分析 C++语言描述》第四版，作者Mark Alan Weiss)**与源代码：
 
 ```c
 void balanceTree(AVLNode** treePointer) {
