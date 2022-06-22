@@ -22,7 +22,7 @@ void printBoard(Sqstack* s)  //打印函数
     const char s2[100] = "          ├──┼──┼──┼──┼──┼──┼──┼──┤\n";
     char* sPrint = s1;
     //按行序依次打印出棋盘，结合上述数组打印出相应位置中的步数
-    printf("棋盘表示:  0  1  2  3  4  5  6  7\n");
+    printf("本次路径:  0  1  2  3  4  5  6  7\n");
     for (int j = 0; j < BOARDSIZE; j++) {
         printf("%s", sPrint);
         sPrint = s2;
